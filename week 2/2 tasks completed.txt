@@ -1,0 +1,72 @@
+""""task 1 completed"""
+
+def read_integer_between_numbers(prompt, mini, maximum):
+    while True:
+        try:
+            user_input = int(input(prompt))
+            if mini <= user_input <= maximum:
+                return user_input
+            else:
+                print(f"Please enter numbers from {mini} to {maximum} only.")
+        except ValueError:
+            print("Sorry - only numbers please")
+
+# Example usage:
+# result = read_integer_between_numbers("Enter a number: ", 1, 100)
+# print("You entered:", result)
+
+
+""""task 2 completed"""
+
+def runners_data():
+    runners_name = []
+    runners_id = []
+
+    with open("runners.txt") as file_input:
+        lines = file_input.readlines()
+
+    for line in lines:
+        name, runner_id = line.strip().split(",")
+        runners_name.append(name)
+        runners_id.append(runner_id)
+
+    return runners_name, runners_id
+
+# Example usage:
+# names, ids = runners_data()
+# print("Runners' names:", names)
+# print("Runners' IDs:", ids)
+
+
+""""task 3 completed"""
+
+def winner_of_race(id, time_taken):
+    quickest_time = min(time_taken)
+    winners = [id[i] for i in range(len(id)) if time_taken[i] == quickest_time]
+    
+    if len(winners) == 1:
+        return winners[0]
+    else:
+        # Handle tie by returning a list of winners
+        return winners
+
+
+
+""""task 4 completed"""
+
+def users_venue(races_location, runners_id):
+    while True:
+        user_location = read_nonempty_string("Where will the new race take place? ").capitalize()
+        if user_location not in races_location:
+            break
+    connection = open(f"{user_location}.txt", "a")
+    races_location.append(user_location)
+    time_taken = []
+    updated_runners = []
+    for i in range(len(runners_id)):
+        time_taken_for_runner = read_integer(f"Time for {runners_id[i]} >> ")
+        if time_taken_for_runner == 0:
+            time_taken.append(time_taken_for_runner)
+            updated_runners.append(runners_id[i])
+            print(f"{runners_id[i]},{time_taken_for_runner},", file=connection)
+    connection.close()
